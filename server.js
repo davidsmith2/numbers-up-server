@@ -108,11 +108,10 @@ app.use(errorHandler());
 
 app.get('/api/games', function (request, response) {
     return GameModel.find(function (error, games) {
-        if (!error) {
-            return response.send(games);
-        } else {
+        if (error) {
             return console.log(error);
         }
+        return response.json(games);
     });
 });
 
@@ -122,7 +121,7 @@ app.post('/api/games', bodyParser.json(), function (request, response) {
         if (error) {
             return console.log(error);
         }
-        response.json(game)
+        response.json(game);
     });
 });
 
