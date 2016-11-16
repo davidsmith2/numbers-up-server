@@ -17,9 +17,7 @@ var uriUtil = require('mongodb-uri');
 
 var config = {
     app: {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: 4711,
+        port: process.env.port || 4711,
         cors: {
             allowedOrigins: ['http://localhost:8080']
         }
@@ -187,7 +185,6 @@ app['delete']('/api/players/:id', function (request, response) {
  ========================================================================================== */
 
 app.listen(config.app.port, function(){
-    var url = config.app.protocol + '://' + config.app.hostname + ':' + config.app.port;
-    var message = 'Express server listening on port %d in %s mode. Application running at ' + url + '.';
+    var message = 'Express server listening on port %d in %s mode.';
     console.log(message, config.app.port, app.settings.env);
 });
