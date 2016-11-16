@@ -8,7 +8,6 @@ var errorHandler = require('errorhandler');
 var express = require('express');
 var methodOverride = require('method-override');
 var mongoose = require('mongoose');
-var path = require('path');
 var uriUtil = require('mongodb-uri');
 
 /* ==========================================================================================
@@ -65,7 +64,9 @@ var Game = new mongoose.Schema({
     guessesAllowed: Number,
     guessesMade: Number,
     result: String,
-    secretNumber: Number
+    secretNumber: Number,
+    tiles: Number,
+    user: String
 });
 
 var Player = new mongoose.Schema({
@@ -75,7 +76,6 @@ var Player = new mongoose.Schema({
 });
 
 var GameModel = mongoose.model('Game', Game);
-
 var PlayerModel = mongoose.model('Player', Player);
 
 mongoose.connection.on('error', console.error.bind(console, 'Mongoose connection error'));
@@ -85,22 +85,6 @@ mongoose.connect(config.db.url[app.settings.env], config.db.options);
 /* ==========================================================================================
  app setup
  ========================================================================================== */
-
-app.use(
-    express.static(
-        path.join(
-            __dirname, 'app'
-        )
-    )
-);
-
-app.use('/js/lib/', express.static('node_modules/requirejs/'));
-
-app.use('/node_modules', express.static('node_modules'));
-
-app.use('/test', express.static('test/'));
-
-app.use('/test', express.static('app'));
 
 app.use(cors(config.app.cors));
 
