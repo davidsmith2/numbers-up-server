@@ -17,7 +17,7 @@ var uriUtil = require('mongodb-uri');
 
 var config = {
     app: {
-        port: process.env.port || 4711,
+        port: process.env.PORT || 4711,
         cors: {
             allowedOrigins: ['http://localhost:8080']
         }
