@@ -12,6 +12,12 @@ var path = require('path');
 var uriUtil = require('mongodb-uri');
 
 /* ==========================================================================================
+ instantiate the app
+ ========================================================================================== */
+
+var app = express();
+
+/* ==========================================================================================
  config
  ========================================================================================== */
 
@@ -19,7 +25,10 @@ var config = {
     app: {
         port: process.env.PORT || 4711,
         cors: {
-            allowedOrigins: ['http://localhost:8080']
+            allowedOrigins: [
+                'http://localhost:8080',
+                'https://davidsmith2.github.io'
+            ]
         }
     },
     db: {
@@ -37,7 +46,10 @@ var config = {
                 }
             }
         },
-        url: uriUtil.formatMongoose('mongodb://admin:admin@ds155097.mlab.com:55097/numbers-up')
+        url: {
+            development: uriUtil.formatMongoose('mongodb://admin:admin@ds153677.mlab.com:53677/numbers-up-local'),
+            production: uriUtil.formatMongoose('mongodb://admin:admin@ds155097.mlab.com:55097/numbers-up')
+        }
     }
 };
 
@@ -68,13 +80,11 @@ var PlayerModel = mongoose.model('Player', Player);
 
 mongoose.connection.on('error', console.error.bind(console, 'Mongoose connection error'));
 mongoose.connection.once('open', console.log.bind(console, 'Mongoose connection open'));
-mongoose.connect(config.db.url, config.db.options);
+mongoose.connect(config.db.url[app.settings.env], config.db.options);
 
 /* ==========================================================================================
  app setup
  ========================================================================================== */
-
-var app = express();
 
 app.use(
     express.static(
