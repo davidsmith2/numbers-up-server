@@ -1,7 +1,9 @@
 {
   "name": "numbers-up-server",
   "version": "0.0.1",
-  "scripts": {},
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "body-parser": "^1.15.2",
     "errorhandler": "^1.4.3",
